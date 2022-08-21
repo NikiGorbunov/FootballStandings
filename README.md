@@ -1,2 +1,3 @@
 # FootballStandings
-architecture: VIPER
+# Architecture
+VIPER
