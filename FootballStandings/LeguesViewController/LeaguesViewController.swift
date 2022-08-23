@@ -9,14 +9,14 @@ import UIKit
 
 private extension LeaguesViewController {
     struct Constants {
-        static let cellIdentifier = "Cell"
+        static let cellIdentifier = "LeagueCell"
         static let title = "Leagues"
         static let rowHeight: CGFloat = 100
     }
 }
 
 protocol LeaguesViewInputProtocol: AnyObject {
-    
+    func reloadData(for section: LeagueSectionViewModel)
 }
 
 protocol LeaguesViewOutputProtocol: AnyObject {
@@ -29,7 +29,7 @@ class LeaguesViewController: UIViewController {
     var presenter: LeaguesViewOutputProtocol!
     
     private let configurator: LeagueConfiguratorInputProtocol = LeagueConfigurator()
-    private var leagues: [League] = []
+    private var sectionViewModel: SectionRowRepresentable = LeagueSectionViewModel()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -47,8 +47,6 @@ class LeaguesViewController: UIViewController {
         title = Constants.title
         addSubviews()
         makeConstraints()
-        tableView.rowHeight = Constants.rowHeight
-        
     }
     
     private func addSubviews() {
@@ -64,25 +62,35 @@ class LeaguesViewController: UIViewController {
 }
 
 
-extension LeaguesViewController: LeaguesViewInputProtocol {
-    
-}
+//MARK: - UITableViewDataSource
 
 extension LeaguesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableView.isHidden = leagues.isEmpty
-        return leagues.count
+        sectionViewModel.rows.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? LeagueViewCell
-        cell?.configure(model: leagues[indexPath.row])
+        let cellViewModel = sectionViewModel.rows[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellViewModel.cellIdentifiable, for: indexPath) as? LeagueViewCell
+        cell?.viewModel = cellViewModel
         return cell ?? UITableViewCell()
     }
 }
 
+// MARK: - UITableViewDelegate
 extension LeaguesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        CGFloat(sectionViewModel.rows[indexPath.row].cellHeight)
+    }
+}
+
+//MARK: - LeagueViewInputProtocol
+extension LeaguesViewController: LeaguesViewInputProtocol {
+    func reloadData(for section: LeagueSectionViewModel) {
+        sectionViewModel = section
+        tableView.reloadData()
     }
 }

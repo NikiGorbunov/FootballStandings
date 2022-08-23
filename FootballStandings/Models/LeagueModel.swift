@@ -8,21 +8,21 @@
 import Foundation
 
 struct Leagues: Decodable {
-    let status: Bool?
+    let status: Bool
     let data: [League]?
 }
 
 struct League: Decodable {
-    let id: String?
-    let name: String?
-    let slug: String?
-    let abbr: String?
+    let id: String
+    let name: String
+    let slug: String
+    let abbr: String
     let logos: LeagueLogos?
 }
 
 struct LeagueLogos: Decodable {
-    let light: String?
-    let dark: String?
+    let light: String
+    let dark: String
 }
 
 

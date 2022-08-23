@@ -19,34 +19,54 @@ private extension LeagueViewCell {
     }
 }
 
-class LeagueViewCell: UITableViewCell {
+protocol CellModelRepresentable {
+    var viewModel: CellIdentifiable? { get set }
+}
+
+class LeagueViewCell: UITableViewCell, CellModelRepresentable {
     
-    private lazy var namelabel: UILabel = {
+    private lazy var nameLeagueLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
     }()
     
-    private lazy var abbrLabel: UILabel = {
+    private lazy var abbrLeagueLabel: UILabel = {
         let label = UILabel()
         label.font = Constants.abbrFont
         label.textColor = Constants.abbrColor
         return label
     }()
     
-    private lazy var logo: UIImageView = {
+    private lazy var leagueImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.clipsToBounds = true
         return image
     }()
     
-    func configure(model: League) {
-        namelabel.text = model.name
-        abbrLabel.text = model.abbr
-        
+    var viewModel: CellIdentifiable? {
+        didSet {
+            updateView()
+        }
+    }
+    
+//    func configure(model: League) {
+//        namelabel.text = model.name
+//        abbrLabel.text = model.abbr
+//        if let imageData = Im
+//        configure()
+//    }
+    
+    private func updateView() {
+        guard let viewModel = viewModel as? LeagueViewCellModel else { return }
+        nameLeagueLabel.text = viewModel.leagueName
+        abbrLeagueLabel.text = viewModel.leagueAbbr
+        leagueImage.loadImage(urlString: viewModel.imageURL)
+            
         configure()
+
     }
     
     private func configure() {
@@ -56,24 +76,24 @@ class LeagueViewCell: UITableViewCell {
     }
     
     private func addSubview() {
-        addSubview(namelabel)
-        addSubview(abbrLabel)
+        addSubview(nameLeagueLabel)
+        addSubview(abbrLeagueLabel)
         
     }
     
     private func makeConstraints() {
-        namelabel.translatesAutoresizingMaskIntoConstraints = false
-        abbrLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLeagueLabel.translatesAutoresizingMaskIntoConstraints = false
+        abbrLeagueLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            namelabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constants.nameLeftInset),
-            namelabel.rightAnchor.constraint(equalTo: centerXAnchor, constant: Constants.nameRightInset),
-            namelabel.topAnchor.constraint(equalTo: topAnchor),
-            namelabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            nameLeagueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constants.nameLeftInset),
+            nameLeagueLabel.rightAnchor.constraint(equalTo: centerXAnchor, constant: Constants.nameRightInset),
+            nameLeagueLabel.topAnchor.constraint(equalTo: topAnchor),
+            nameLeagueLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            abbrLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constants.abbrLeftInset),
-            abbrLabel.topAnchor.constraint(equalTo: centerYAnchor),
-            abbrLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            abbrLeagueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constants.abbrLeftInset),
+            abbrLeagueLabel.topAnchor.constraint(equalTo: centerYAnchor),
+            abbrLeagueLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
