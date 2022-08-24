@@ -52,13 +52,6 @@ class LeagueViewCell: UITableViewCell, CellModelRepresentable {
         }
     }
     
-//    func configure(model: League) {
-//        namelabel.text = model.name
-//        abbrLabel.text = model.abbr
-//        if let imageData = Im
-//        configure()
-//    }
-    
     private func updateView() {
         guard let viewModel = viewModel as? LeagueViewCellModel else { return }
         nameLeagueLabel.text = viewModel.leagueName
