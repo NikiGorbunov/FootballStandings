@@ -16,7 +16,7 @@ protocol SectionRowRepresentable {
     var rows: [CellIdentifiable] { get set }
 }
 
-open class LeagueViewCellModel: CellIdentifiable {
+class LeagueViewCellModel: CellIdentifiable {
     var leagueName: String
     var leagueAbbr: String
     var imageURL: String
@@ -28,7 +28,8 @@ open class LeagueViewCellModel: CellIdentifiable {
         100
     }
     
-    init(league: League) {
+    init(league: Leagues) {
+        
         leagueName = league.name
         leagueAbbr = league.abbr
         imageURL = league.logos?.light ?? ""

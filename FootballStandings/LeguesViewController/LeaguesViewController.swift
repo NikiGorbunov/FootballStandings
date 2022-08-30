@@ -43,6 +43,9 @@ class LeaguesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configurator.configure(with: self)
+        presenter.viewDidLoad()
+        
         view.backgroundColor = .white
         title = Constants.title
         addSubviews()
@@ -63,7 +66,6 @@ class LeaguesViewController: UIViewController {
 
 
 //MARK: - UITableViewDataSource
-
 extension LeaguesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         sectionViewModel.rows.count

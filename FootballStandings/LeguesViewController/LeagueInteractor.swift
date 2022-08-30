@@ -19,12 +19,16 @@ protocol LeagueInteractorOutputProtocol: AnyObject {
 }
 
 class LeagueInteractor: LeagueInteractorInputProtocol {
+    unowned let presenter: LeagueInteractorOutputProtocol
+    
     required init(presenter: LeagueInteractorOutputProtocol) {
-        
+        self.presenter = presenter
     }
     
     func fetchLeague() {
-        
+        NetworkManager.shared.fetchData { leagues in
+            self.presenter.leaguesDidReceive(leagues)
+        }
     }
     
     func getLeague(at indexPath: IndexPath) {

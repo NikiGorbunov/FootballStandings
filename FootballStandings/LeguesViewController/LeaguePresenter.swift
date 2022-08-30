@@ -20,11 +20,12 @@ class LeaguePresenter: LeaguesViewOutputProtocol {
         interactor.fetchLeague()
     }
 }
-    // MARK: - LeagueInteractorOutputProtocol
-    
+// MARK: - LeagueInteractorOutputProtocol
 extension LeaguePresenter: LeagueInteractorOutputProtocol {
     func leaguesDidReceive(_ leagues: [Leagues]) {
-        
+        let section = LeagueSectionViewModel()
+        leagues.forEach { section.rows.append(LeagueViewCellModel(league: $0)) }
+        view.reloadData(for: section)
     }
     
     func leagueDidReceive(_ league: Leagues) {
