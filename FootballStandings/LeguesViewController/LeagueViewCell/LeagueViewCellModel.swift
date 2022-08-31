@@ -30,9 +30,9 @@ class LeagueViewCellModel: CellIdentifiable {
     
     init(league: Leagues) {
         
-        leagueName = league.name
-        leagueAbbr = league.abbr
-        imageURL = league.logos?.light ?? ""
+//        leagueName = league.name
+//        leagueAbbr = league.abbr
+//        imageURL = league.logos?.light ?? ""
     }
     
     
